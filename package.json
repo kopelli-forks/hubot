@@ -48,7 +48,7 @@
     "start": "bin/hubot",
     "pretest": "standard",
     "test": "nyc --reporter=html --reporter=text mocha",
-    "coverage": "nyc report --reporter=text-lcov",
+    "coverage": "nyc report --reporter=lcovonly",
     "test:smoke": "node src/**/*.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }
