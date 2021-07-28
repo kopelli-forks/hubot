@@ -314,18 +314,21 @@ describe('Listener', function () {
     })
 
     describe('#constructor', function () {
-      it('requires a matcher', () => expect(function () {
-        return new Listener(this.robot, undefined, {}, sinon.spy())
-      }).to.throw(Error))
+      it('requires a matcher', function () {
+        expect(function () {
+          return new Listener({}, undefined, {}, sinon.spy())
+        }).to.throw(Error)
+      })
 
       it('requires a callback', function () {
         // No options
         expect(function () {
-          return new Listener(this.robot, sinon.spy())
+          return new Listener({}, sinon.spy())
         }).to.throw(Error)
+
         // With options
         expect(function () {
-          return new Listener(this.robot, sinon.spy(), {})
+          return new Listener({}, sinon.spy(), {})
         }).to.throw(Error)
       })
 

@@ -157,6 +157,15 @@ describe('Robot', function () {
         const match2 = testMessage2.match(pattern)[1]
         expect(match2).to.equal('message123')
       })
+
+      it('warns when the regex starts with an anchor', function () {
+        const spy = sinon.spy(this.robot.logger, 'warning')
+        const testRegex = /^(.*)/
+
+        const pattern = this.robot.respondPattern(testRegex)
+        expect(spy).to.have.been.called
+        expect(pattern).to.not.be.equal(undefined)
+      })
     })
 
     describe('#listen', () =>
@@ -1063,6 +1072,20 @@ describe('Robot', function () {
           testDone()
         })
       })
+    })
+  })
+
+  describe('Defaults In Constructor', function () {
+    it('has a default name', function () {
+      this.robot = new Robot(null, 'mock-adapter', false)
+
+      expect(this.robot.name).to.equal('Hubot')
+    })
+
+    it('has no alias', function () {
+      this.robot = new Robot(null, 'mock-adapter', false)
+
+      expect(this.robot.alias).to.equal(false)
     })
   })
 })

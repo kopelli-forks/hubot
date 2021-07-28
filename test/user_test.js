@@ -4,8 +4,9 @@
 
 const expect = require('chai').expect
 const User = require('../src/user')
+const DataStoreUnavailable = require('../src/datastore').DataStoreUnavailable
 
-describe('User', () =>
+describe('User', function () {
   describe('new', function () {
     it('uses id as the default name', function () {
       const user = new User('hubot')
@@ -26,4 +27,14 @@ describe('User', () =>
       expect(user.name).to.equal('tobuh')
     })
   })
-)
+
+  describe('set', function () {
+    it('throws an error when robot is not provided in constructor', function () {
+      const user = new User('hubot')
+
+      expect(function () {
+        return user.set('key', 'value')
+      }).to.throw(DataStoreUnavailable)
+    })
+  })
+})

@@ -37,6 +37,22 @@ describe('Adapter', function () {
       })
     })
 
+    describe('emote', function () {
+      it('is a function', function () {
+        expect(this.adapter.emote).to.be.a('function')
+      })
+
+      it('dispatches messages to send', function () {
+        this.adapter.send = sinon.spy(this.adapter, 'send')
+
+        this.adapter.emote({}, 'string1', 'string2')
+        expect(this.adapter.send.callCount).to.equal(1)
+
+        expect(this.adapter.send).to.have.been.calledOn(this.adapter)
+        expect(this.adapter.send).to.have.been.calledWithExactly({}, 'string1', 'string2')
+      })
+    })
+
     describe('reply', function () {
       it('is a function', function () {
         expect(this.adapter.reply).to.be.a('function')
