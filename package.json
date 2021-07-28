@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "chai": "~2.1.0",
-    "coveralls": "^3.0.2",
     "is-circular": "^1.0.2",
     "mocha": "^5.2.0",
     "mockery": "^1.4.0",
@@ -49,7 +48,7 @@
     "start": "bin/hubot",
     "pretest": "standard",
     "test": "nyc --reporter=html --reporter=text mocha",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=text-lcov",
     "test:smoke": "node src/**/*.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }

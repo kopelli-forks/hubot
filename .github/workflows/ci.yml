@@ -34,4 +34,8 @@ jobs:
     - run: npm prune
     - run: npm run test
     - run: npm run coverage
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - run: ./bin/e2e-test.sh
