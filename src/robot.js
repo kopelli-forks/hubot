@@ -21,12 +21,11 @@ class Robot {
   // Robots receive messages from a chat source (Campfire, irc, etc), and
   // dispatch them to matching listeners.
   //
-  // adapterPath -  A String of the path to built-in adapters (defaults to src/adapters)
   // adapter     - A String of the adapter name.
   // httpd       - A Boolean whether to enable the HTTP daemon.
   // name        - A String of the robot name, defaults to Hubot.
   // alias       - A String of the alias of the robot name
-  constructor (adapterPath, adapter, httpd, name, alias) {
+  constructor (adapter, httpd, name, alias) {
     if (name == null) {
       name = 'Hubot'
     }
