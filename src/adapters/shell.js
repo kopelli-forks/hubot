@@ -8,7 +8,7 @@ const chalk = require('chalk')
 
 const Adapter = require('../adapter')
 
-var _require = require('../message')
+const _require = require('../message')
 
 const TextMessage = _require.TextMessage
 
@@ -82,25 +82,23 @@ class Shell extends Adapter {
     })
 
     this.cli.on('close', () => {
-      let fileOpts, history, i, item, len, outstream, startIndex
-
-      history = this.cli.history()
+      let history = this.cli.history()
 
       if (history.length <= historySize) {
         return this.shutdown()
       }
 
-      startIndex = history.length - historySize
+      const startIndex = history.length - historySize
       history = history.reverse().splice(startIndex, historySize)
-      fileOpts = {
+      const fileOpts = {
         mode: 0x180
       }
 
-      outstream = fs.createWriteStream(historyPath, fileOpts)
+      const outstream = fs.createWriteStream(historyPath, fileOpts)
       outstream.on('finish', this.shutdown.bind(this))
 
-      for (i = 0, len = history.length; i < len; i++) {
-        item = history[i]
+      for (let i = 0, len = history.length; i < len; i++) {
+        const item = history[i]
         outstream.write(item + '\n')
       }
 
