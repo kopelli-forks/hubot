@@ -373,7 +373,7 @@ describe('Robot', function () {
 
     describe('#loadFile', function () {
       beforeEach(function () {
-        this.sandbox = sinon.sandbox.create()
+        this.sandbox = sinon.createSandbox()
       })
 
       afterEach(function () {
@@ -717,7 +717,7 @@ describe('Robot', function () {
       this.robot.catchAll(catchAllCallback)
 
       this.robot.receive(testMessage, function () {
-        expect(listenerCallback).to.have.been.called.once
+        expect(listenerCallback).to.have.been.calledOnce
         expect(catchAllCallback).to.not.have.been.called
         done()
       })
