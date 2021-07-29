@@ -14,11 +14,11 @@ const Listener = require('./listener')
 const Message = require('./message')
 const Middleware = require('./middleware')
 
-const HUBOT_DEFAULT_ADAPTERS = ['campfire', 'shell']
+const HUBOT_DEFAULT_ADAPTERS = ['shell']
 const HUBOT_DOCUMENTATION_SECTIONS = ['description', 'dependencies', 'configuration', 'commands', 'notes', 'author', 'authors', 'examples', 'tags', 'urls']
 
 class Robot {
-  // Robots receive messages from a chat source (Campfire, irc, etc), and
+  // Robots receive messages from a chat source (shell, irc, etc), and
   // dispatch them to matching listeners.
   //
   // adapter     - A String of the adapter name.
