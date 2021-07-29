@@ -26,7 +26,7 @@ module.exports = {
   DataStore: DataStore.DataStore,
   DataStoreUnavailable: DataStore.DataStoreUnavailable,
 
-  loadBot (adapterPath, adapterName, enableHttpd, botName, botAlias) {
-    return new module.exports.Robot(adapterPath, adapterName, enableHttpd, botName, botAlias)
+  loadBot (adapterName, enableHttpd, botName, botAlias) {
+    return new module.exports.Robot(adapterName, enableHttpd, botName, botAlias)
   }
 }

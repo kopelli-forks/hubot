@@ -28,7 +28,7 @@ describe('Robot', function () {
       warnOnUnregistered: false
     })
     mockery.registerMock('hubot-mock-adapter', require('./fixtures/mock-adapter'))
-    this.robot = new Robot(null, 'mock-adapter', true, 'TestHubot')
+    this.robot = new Robot('mock-adapter', true, 'TestHubot')
     this.robot.alias = 'Hubot'
     this.robot.run()
 
@@ -1077,13 +1077,13 @@ describe('Robot', function () {
 
   describe('Defaults In Constructor', function () {
     it('has a default name', function () {
-      this.robot = new Robot(null, 'mock-adapter', false)
+      this.robot = new Robot('mock-adapter', false)
 
       expect(this.robot.name).to.equal('Hubot')
     })
 
     it('has no alias', function () {
-      this.robot = new Robot(null, 'mock-adapter', false)
+      this.robot = new Robot('mock-adapter', false)
 
       expect(this.robot.alias).to.equal(false)
     })
