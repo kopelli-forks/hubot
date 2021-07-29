@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 const async = require('async')
-const Log = require('log')
+const log = require('loglevel')
 const HttpClient = require('scoped-http-client')
 
 const Brain = require('./brain')
@@ -48,7 +48,12 @@ class Robot {
       response: new Middleware(this),
       receive: new Middleware(this)
     }
-    this.logger = new Log(process.env.HUBOT_LOG_LEVEL || 'info')
+    log.setLevel(process.env.HUBOT_LOG_LEVEL || log.levels.INFO)
+
+    /**
+     * @type {log.RootLogger}
+     */
+    this.logger = log
     this.pingIntervalId = null
     this.globalHttpOptions = {}
 
@@ -131,8 +136,8 @@ class Robot {
     const name = this.name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 
     if (regexStartsWithAnchor) {
-      this.logger.warning('Anchors don’t work well with respond, perhaps you want to use \'hear\'')
-      this.logger.warning(`The regex in question was ${regex.toString()}`)
+      this.logger.warn('Anchors don’t work well with respond, perhaps you want to use \'hear\'')
+      this.logger.warn(`The regex in question was ${regex.toString()}`)
     }
 
     if (!this.alias) {
@@ -362,7 +367,7 @@ class Robot {
         script(this)
         this.parseHelp(path.join(filepath, filename))
       } else {
-        this.logger.warning(`Expected ${full} to assign a function to module.exports, got ${typeof script}`)
+        this.logger.warn(`Expected ${full} to assign a function to module.exports, got ${typeof script}`)
       }
     } catch (error) {
       this.logger.error(`Unable to load ${full}: ${error.stack}`)
@@ -482,10 +487,10 @@ class Robot {
     const msg = 'A script has tried registering a HTTP route while the HTTP server is disabled with --disabled-httpd.'
 
     this.router = {
-      get: () => this.logger.warning(msg),
-      post: () => this.logger.warning(msg),
-      put: () => this.logger.warning(msg),
-      delete: () => this.logger.warning(msg)
+      get: () => this.logger.warn(msg),
+      post: () => this.logger.warn(msg),
+      put: () => this.logger.warn(msg),
+      delete: () => this.logger.warn(msg)
     }
   }
 
