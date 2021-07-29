@@ -154,7 +154,7 @@ function loadHubotScripts () {
 
     if (scripts.length === 0) {
       hubotScriptsWarning += 'Your hubot-scripts.json is empty, so you just need to remove it.'
-      return robot.logger.warning(hubotScriptsWarning)
+      return robot.logger.warn(hubotScriptsWarning)
     }
 
     const hubotScriptsReplacements = pathResolve('node_modules', 'hubot-scripts', 'replacements.json')
@@ -164,7 +164,7 @@ function loadHubotScripts () {
 
     if (!fs.existsSync(hubotScriptsReplacements)) {
       hubotScriptsWarning += 'To get a list of recommended replacements, update your hubot-scripts: npm install --save hubot-scripts@latest'
-      return robot.logger.warning(hubotScriptsWarning)
+      return robot.logger.warn(hubotScriptsWarning)
     }
 
     hubotScriptsWarning += 'The following scripts have known replacements. Follow the link for installation instructions, then remove it from hubot-scripts.json:\n'
@@ -187,7 +187,7 @@ function loadHubotScripts () {
       hubotScriptsWarning += '\nYou an also try updating hubot-scripts to get the latest list of replacements: npm install --save hubot-scripts@latest'
     }
 
-    robot.logger.warning(hubotScriptsWarning)
+    robot.logger.warn(hubotScriptsWarning)
   }
 }
 

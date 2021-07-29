@@ -158,7 +158,7 @@ describe('Robot', function () {
       })
 
       it('warns when the regex starts with an anchor', function () {
-        const spy = sinon.spy(this.robot.logger, 'warning')
+        const spy = sinon.spy(this.robot.logger, 'warn')
         const testRegex = /^(.*)/
 
         const pattern = this.robot.respondPattern(testRegex)
@@ -421,9 +421,9 @@ describe('Robot', function () {
         })
 
         it('logs a warning', function () {
-          sinon.stub(this.robot.logger, 'warning')
+          sinon.stub(this.robot.logger, 'warn')
           this.robot.loadFile('./scripts', 'test-script.js')
-          expect(this.robot.logger.warning).to.have.been.called
+          expect(this.robot.logger.warn).to.have.been.called
         })
       })
 
