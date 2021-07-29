@@ -6,10 +6,9 @@ permalink: /docs/adapters/
 
 Adapters are the interface to the service you want your hubot to run on.
 
-Hubot includes two official adapters:
+Hubot includes one official adapters:
 
 * [Shell](./adapters/shell.md), i.e. for use with development
-* [Campfire](./adapters/campfire.md)
 
 There are Third-party adapters available for most chat services. Here are the most popular ones:
 

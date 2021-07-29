@@ -29,16 +29,16 @@ To get the code on your server, you can follow the instructions at [Getting Star
 
 You will want to set up your hubot environment variables on the server where it will run. You can do this by opening an administrative PowerShell and typing the following:
 
-    [Environment]::SetEnvironmentVariable("HUBOT_ADAPTER", "Campfire", "Machine")
+    [Environment]::SetEnvironmentVariable("HUBOT_ADAPTER", "Shell", "Machine")
 
-This is equivalent to going into the system menu -> selecting advanced system settings -> environment vars and adding a new system variable called HUBOT_ADAPTER with the value of Campfire.
+This is equivalent to going into the system menu -> selecting advanced system settings -> environment vars and adding a new system variable called HUBOT_ADAPTER with the value of Shell.
 
 ## Starting, stopping, and restarting hubot
 
 Every hubot install has a `bin/hubot` script to handle starting up the hubot.
 You can run this command directly from your hubot folder by typing the following:
 
-    .\bin\hubot –adapter campfire
+    .\bin\hubot –adapter shell
 
 There are a few issues if you call it manually, though.
 

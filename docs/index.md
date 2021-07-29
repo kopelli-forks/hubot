@@ -37,7 +37,7 @@ to the `yo hubot` command to do so:
 | `--owner="Bot Wrangler <bw@example.com>"`   | Bot owner, e.g. "Bot Wrangler <bw@example.com>"        |
 | `--name="Hubot"`                            | Bot name, e.g. "Hubot"                                 |
 | `--description="Delightfully aware robutt"` | Bot description, e.g. "Delightfully aware robutt"      |
-| `--adapter=campfire`                        | Bot adapter, e.g. "campfire"                           |
+| `--adapter=shell`                           | Bot adapter, e.g. "shell"                              |
 | `--defaults`                                | Declare all defaults are set and no prompting required |
 
 You now have your own functional hubot! There's a `bin/hubot`
