@@ -8,23 +8,27 @@ trap "{ CODE=$?; popd; rm -rf $TEMP_ROOT; exit $CODE; }" EXIT
 
 ## https://hubot.github.com/docs/
 
-echo "$ npm install -g yo generator-hubot"
-npm install -g yo generator-hubot
+set -x
+npm install --global --audit=false yo kopelli-forks/generator-hubot#develop
+{ set +x; } 2>/dev/null
 
 ## simulate pressing enter for each generator question to accept defaults
 ## https://stackoverflow.com/a/6264618/206879
-echo "$ yo hubot --defaults"
+set -x
 yo hubot --defaults
+{ set +x; } 2>/dev/null
 
 ## use hubot from last commit
-echo "$ npm install $HUBOT_FOLDER"
-npm install $HUBOT_FOLDER
+set -x
+npm install --audit=false $HUBOT_FOLDER
+{ set +x; } 2>/dev/null
 
 # npm install /path/to/hubot will create a symlink in npm 5+ (http://blog.npmjs.org/post/161081169345/v500).
 # As the require calls for app-specific scripts happen inside hubot, we have to
 # set NODE_PATH to the app’s node_modules path so they can be found
-echo "$ NODE_PATH=$HUBOT_FOLDER/node_modules:$TEMP_ROOT/node_modules"
+set -x
 export NODE_PATH=$NODE_PATH/$HUBOT_FOLDER/node_modules:$TEMP_ROOT/node_modules
+{ set +x; } 2>/dev/null
 
 ## start
 expect <<EOL
