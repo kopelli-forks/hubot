@@ -1,85 +1,42 @@
 'use strict'
 
 import * as fs from 'fs'
-import OptParse from 'optparse'
+import { Command } from 'commander'
 import * as path from 'path'
 import * as Hubot from '..'
 
 const pathResolve = path.resolve
 
-const switches = [
-  ['-a', '--adapter ADAPTER', 'The Adapter to use'],
-  ['-d', '--disable-httpd', 'Disable the HTTP server'],
-  ['-h', '--help', 'Display the help information'],
-  ['-l', '--alias ALIAS', "Enable replacing the robot's name with alias"],
-  ['-n', '--name NAME', 'The name of the robot in chat'],
-  ['-r', '--require PATH', 'Alternative scripts path'],
-  ['-t', '--config-check', "Test hubot's config to make sure it won't fail at startup"],
-  ['-v', '--version', 'Displays the version of hubot installed']
-]
+//const options = {
+//  adapter: process.env.HUBOT_ADAPTER || 'shell',
+//  alias: process.env.HUBOT_ALIAS || false,
+//  create: process.env.HUBOT_CREATE || false,
+//  enableHttpd: process.env.HUBOT_HTTPD || true,
+//  scripts: process.env.HUBOT_SCRIPTS !== undefined ? [process.env.HUBOT_SCRIPTS] : null || [],
+//  name: process.env.HUBOT_NAME || 'Hubot',
+//  configCheck: false,
+//  version: false
+//}
 
-const options = {
-  adapter: process.env.HUBOT_ADAPTER || 'shell',
-  alias: process.env.HUBOT_ALIAS || false,
-  create: process.env.HUBOT_CREATE || false,
-  enableHttpd: process.env.HUBOT_HTTPD || true,
-  scripts: process.env.HUBOT_SCRIPTS !== undefined ? [process.env.HUBOT_SCRIPTS] : null || [],
-  name: process.env.HUBOT_NAME || 'Hubot',
-  path: process.env.HUBOT_PATH || '.',
-  configCheck: false,
-  version: false
-}
+const program = new Command()
+program
+  .option('-a, --adapter <adapter>', 'The Adapter to use', process.env.HUBOT_ADAPTER || 'shell')
+  .option('-d, --disable-httpd', 'Disable the HTTP server', process.env.HUBOT_HTTPD || false)
+  .option('-l, --alias [alias]', 'Enable replacing the robot\'s name with alias', (value) => !value ? '/' : value, process.env.HUBOT_ALIAS)
+  .option('-n, --name <name>', 'The name of the robot in chat', process.env.HUBOT_NAME || 'Hubot')
+  .option('-r, --require <path>', 'Alternative script path to load', (value, prev: string[]) => { prev.push(value); return prev }, [])
+  .option('-t, --config-check', 'Test the configuration to make sure there are no failures at startup', false)
+  .option('-v, --version', 'Display the version installed', false)
+  .addHelpText('beforeAll', 'Usage hubot [options]')
 
-const Parser = new OptParse.OptionParser(switches)
-Parser.banner = 'Usage hubot [options]'
-
-Parser.on('adapter', (_: any, value: string) => {
-  options.adapter = value
-})
-
-Parser.on('disable-httpd', (opt: any) => {
-  options.enableHttpd = false
-})
-
-Parser.on('help', function (opt: any, value: string) {
-  console.log(Parser.toString())
-  return process.exit(0)
-})
-
-Parser.on('alias', function (opt: any, value: string) {
-  if (!value) {
-    value = '/'
-  }
-  options.alias = value
-})
-
-Parser.on('name', (opt: any, value: string) => {
-  options.name = value
-})
-
-Parser.on('require', (opt: any, value: string) => {
-  options.scripts.push(value)
-})
-
-Parser.on('config-check', (opt: any) => {
-  options.configCheck = true
-})
-
-Parser.on('version', (opt: any, value: string) => {
-  options.version = true
-})
-
-Parser.on((opt: any, value: string) => {
-  console.warn(`Unknown option: ${opt}`)
-})
-
-Parser.parse(process.argv)
+program.parse(process.argv)
+const options = program.opts();
 
 if (process.platform !== 'win32') {
   process.on('SIGTERM', () => process.exit(0))
 }
 
-const robot = Hubot.loadBot(options.adapter, options.enableHttpd, options.name, options.alias)
+const robot = Hubot.loadBot(options.adapter, !options.disableHttpd, options.name, options.alias)
 
 if (options.version) {
   console.log(robot.version)
@@ -102,7 +59,7 @@ function loadScripts () {
 
   loadExternalScripts()
 
-  options.scripts.forEach((scriptPath) => {
+  options.require.forEach((scriptPath: string) => {
     if (scriptPath[0] === '/') {
       return robot.load(scriptPath)
     }
