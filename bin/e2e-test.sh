@@ -27,7 +27,7 @@ npm install --audit=false --fund=false $HUBOT_FOLDER
 # As the require calls for app-specific scripts happen inside hubot, we have to
 # set NODE_PATH to the app’s node_modules path so they can be found
 set -x
-export NODE_PATH=$NODE_PATH/$HUBOT_FOLDER/node_modules:$TEMP_ROOT/node_modules
+export NODE_PATH=$NODE_PATH:$HUBOT_FOLDER/node_modules:$TEMP_ROOT/node_modules
 { set +x; } 2>/dev/null
 
 ## start
