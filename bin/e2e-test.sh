@@ -9,7 +9,7 @@ trap "{ CODE=$?; popd; rm -rf $TEMP_ROOT; exit $CODE; }" EXIT
 ## https://hubot.github.com/docs/
 
 set -x
-npm install --global --audit=false yo kopelli-forks/generator-hubot#develop
+npm_config_loglevel=silent npm install --global --audit=false --fund=false yo kopelli-forks/generator-hubot#develop
 { set +x; } 2>/dev/null
 
 ## simulate pressing enter for each generator question to accept defaults
