@@ -4,8 +4,16 @@ const inherits = require('util').inherits
 
 const hubotExport = require('./es2015')
 
+/**
+ * @typedef {Object} Hubot
+ * @property {function} loadBot creates a new robot
+ * @property {Object} User the user class
+ */
 // make all es2015 class declarations compatible with CoffeeScript’s extend
 // see https://github.com/hubotio/evolution/pull/4#issuecomment-306437501
+/**
+ * @returns {Hubot} hubot object
+ */
 module.exports = Object.keys(hubotExport).reduce((map, current) => {
   if (current !== 'loadBot') {
     map[current] = makeClassCoffeeScriptCompatible(hubotExport[current])

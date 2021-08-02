@@ -3,7 +3,7 @@
 import * as fs from 'fs'
 import OptParse from 'optparse'
 import * as path from 'path'
-import Hubot from '..'
+import * as Hubot from '..'
 
 const pathResolve = path.resolve
 
