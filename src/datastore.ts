@@ -1,10 +1,12 @@
 'use strict'
 
-class DataStore {
+export abstract class DataStore {
+  private robot: unknown
+
   // Represents a persistent, database-backed storage for the robot. Extend this.
   //
   // Returns a new Datastore with no storage.
-  constructor (robot) {
+  constructor (robot: unknown) {
     this.robot = robot
   }
 
@@ -13,16 +15,16 @@ class DataStore {
   // write has completed.
   //
   // Value can be any JSON-serializable type.
-  set (key, value) {
+  public set (key: string, value: any) {
     return this._set(key, value, 'global')
   }
 
   // Public: Assuming `key` represents an object in the database,
   // sets its `objectKey` to `value`. If `key` isn't already
   // present, it's instantiated as an empty object.
-  setObject (key, objectKey, value) {
-    return this.get(key).then((object) => {
-      const target = object || {}
+  public setObject (key: string, objectKey: string, value: unknown) {
+    return this.get(key).then((obj) => {
+      const target = (obj || {}) as Record<string, any>
       target[objectKey] = value
       return this.set(key, target)
     })
@@ -31,9 +33,9 @@ class DataStore {
   // Public: Adds the supplied value(s) to the end of the existing
   // array in the database marked by `key`. If `key` isn't already
   // present, it's instantiated as an empty array.
-  setArray (key, value) {
-    return this.get(key).then((object) => {
-      const target = object || []
+  public setArray (key: string, value: any) {
+    return this.get(key).then((obj) => {
+      const target = (obj || []) as any[]
       // Extend the array if the value is also an array, otherwise
       // push the single value on the end.
       if (Array.isArray(value)) {
@@ -47,16 +49,16 @@ class DataStore {
   // Public: Get value by key if in the database or return `undefined`
   // if not found. Returns a promise which resolves to the
   // requested value.
-  get (key) {
+  public get (key: unknown) {
     return this._get(key, 'global')
   }
 
   // Public: Digs inside the object at `key` for a key named
   // `objectKey`. If `key` isn't already present, or if it doesn't
   // contain an `objectKey`, returns `undefined`.
-  getObject (key, objectKey) {
-    return this.get(key).then((object) => {
-      const target = object || {}
+  public getObject (key: string, objectKey: string) {
+    return this.get(key).then((obj) => {
+      const target = (obj || {}) as Record<string, any>
       return target[objectKey]
     })
   }
@@ -69,9 +71,7 @@ class DataStore {
   //
   // This returns a resolved promise when the `set` operation is
   // successful, and a rejected promise if the operation fails.
-  _set (key, value, table) {
-    return Promise.reject(new DataStoreUnavailable('Setter called on the abstract class.'))
-  }
+  protected abstract _set (key: unknown, value: unknown, table: unknown): Promise<void>
 
   // Private: Implements the underlying `get` logic for the datastore.
   // This will be called by the public methods. This is one of two
@@ -81,14 +81,7 @@ class DataStore {
   //
   // This returns a resolved promise containing the fetched value on
   // success, and a rejected promise if the operation fails.
-  _get (key, table) {
-    return Promise.reject(new DataStoreUnavailable('Getter called on the abstract class.'))
-  }
+  protected abstract _get (key: unknown, table: unknown): Promise<unknown>
 }
 
-class DataStoreUnavailable extends Error {}
-
-module.exports = {
-  DataStore,
-  DataStoreUnavailable
-}
+export class DataStoreUnavailable extends Error {}

@@ -7,3 +7,4 @@ coverage/
 
 *.map
 bin/hubot.js
+src/datastore.js
