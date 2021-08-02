@@ -1,11 +1,11 @@
 'use strict'
 
-const fs = require('fs')
-const pathResolve = require('path').resolve
+import * as fs from 'fs'
+import OptParse from 'optparse'
+import * as path from 'path'
+import Hubot from '..'
 
-const OptParse = require('optparse')
-
-const Hubot = require('..')
+const pathResolve = path.resolve
 
 const switches = [
   ['-a', '--adapter ADAPTER', 'The Adapter to use'],
@@ -24,10 +24,11 @@ const options = {
   alias: process.env.HUBOT_ALIAS || false,
   create: process.env.HUBOT_CREATE || false,
   enableHttpd: process.env.HUBOT_HTTPD || true,
-  scripts: process.env.HUBOT_SCRIPTS || [],
+  scripts: Array.from(process.env.HUBOT_SCRIPTS) || [],
   name: process.env.HUBOT_NAME || 'Hubot',
   path: process.env.HUBOT_PATH || '.',
-  configCheck: false
+  configCheck: false,
+  version: false
 }
 
 const Parser = new OptParse.OptionParser(switches)
@@ -134,7 +135,7 @@ function loadHubotScripts () {
 
   if (fs.existsSync(hubotScripts)) {
     let hubotScriptsWarning
-    const data = fs.readFileSync(hubotScripts)
+    const data = fs.readFileSync(hubotScripts, { encoding: "utf-8" })
 
     if (data.length === 0) {
       return
@@ -158,7 +159,7 @@ function loadHubotScripts () {
     }
 
     const hubotScriptsReplacements = pathResolve('node_modules', 'hubot-scripts', 'replacements.json')
-    const replacementsData = fs.readFileSync(hubotScriptsReplacements)
+    const replacementsData = fs.readFileSync(hubotScriptsReplacements, { encoding: "utf-8"})
     const replacements = JSON.parse(replacementsData)
     const scriptsWithoutReplacements = []
 
@@ -198,7 +199,7 @@ function loadExternalScripts () {
     return
   }
 
-  fs.readFile(externalScripts, function (error, data) {
+  fs.readFile(externalScripts, { encoding: "utf-8" }, function (error, data) {
     if (error) {
       throw error
     }
