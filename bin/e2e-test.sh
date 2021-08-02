@@ -20,7 +20,7 @@ yo hubot --defaults
 
 ## use hubot from last commit
 set -x
-npm install --audit=false $HUBOT_FOLDER
+npm install --audit=false --fund=false $HUBOT_FOLDER
 { set +x; } 2>/dev/null
 
 # npm install /path/to/hubot will create a symlink in npm 5+ (http://blog.npmjs.org/post/161081169345/v500).
