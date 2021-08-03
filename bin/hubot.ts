@@ -3,7 +3,7 @@
 import * as fs from 'fs'
 import { Command } from 'commander'
 import * as path from 'path'
-import * as Hubot from '..'
+import loadBot from '..'
 
 const pathResolve = path.resolve
 
@@ -36,7 +36,7 @@ if (process.platform !== 'win32') {
   process.on('SIGTERM', () => process.exit(0))
 }
 
-const robot = Hubot.loadBot(options.adapter, !options.disableHttpd, options.name, options.alias)
+const robot = loadBot(options.adapter, !options.disableHttpd, options.name, options.alias)
 
 if (options.version) {
   console.log(robot.version)

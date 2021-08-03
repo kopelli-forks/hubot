@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use strict'
 
 /* global describe, beforeEach, it, afterEach */

@@ -1,6 +1,6 @@
 'use strict'
 
-export abstract class DataStore {
+export default abstract class DataStore {
   private robot: unknown
 
   // Represents a persistent, database-backed storage for the robot. Extend this.

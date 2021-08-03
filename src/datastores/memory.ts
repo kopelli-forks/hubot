@@ -1,8 +1,8 @@
 'use strict'
 
-import { DataStore } from '../datastore'
+import DataStore from '../datastore'
 
-export class InMemoryDataStore extends DataStore {
+export default class InMemoryDataStore extends DataStore {
   private data: Record<'global'|'users', Record<string, any>>
   constructor (robot: unknown) {
     super(robot)
