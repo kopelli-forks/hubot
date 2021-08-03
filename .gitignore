@@ -11,3 +11,5 @@ src/datastore.js
 src/datastores/memory.js
 index.js
 src/user.js
+src/message.js
+src/*-message.js

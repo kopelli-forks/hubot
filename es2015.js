@@ -8,6 +8,7 @@ const Response = require('./src/response')
 const Listener = require('./src/listener')
 const Message = require('./src/message')
 const DataStore = require('./src/datastore')
+const TextMessage = require('./src/text-message')
 
 module.exports = {
   User,
@@ -18,7 +19,7 @@ module.exports = {
   Listener: Listener.Listener,
   TextListener: Listener.TextListener,
   Message: Message.Message,
-  TextMessage: Message.TextMessage,
+  TextMessage: TextMessage.TextMessage,
   EnterMessage: Message.EnterMessage,
   LeaveMessage: Message.LeaveMessage,
   TopicMessage: Message.TopicMessage,

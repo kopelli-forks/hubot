@@ -1,6 +1,6 @@
 'use strict'
 
-import DataStore from '../datastore'
+import { DataStore } from '../datastore'
 
 export default class InMemoryDataStore extends DataStore {
   private data: Record<'global'|'users', Record<string, any>>
