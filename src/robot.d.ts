@@ -1,4 +1,5 @@
 import { EventEmitter } from "stream"
+import DataStore from "./datastore"
 
 export default class Robot {
     /**
@@ -21,4 +22,6 @@ export default class Robot {
     adapter: EventEmitter
 
     shutdown(): void
+
+    datastore?: DataStore
 }

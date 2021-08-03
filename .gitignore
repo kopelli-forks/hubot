@@ -10,3 +10,4 @@ bin/hubot.js
 src/datastore.js
 src/datastores/memory.js
 index.js
+src/user.js

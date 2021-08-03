@@ -1,13 +1,18 @@
 'use strict'
 
-const DataStoreUnavailable = require('./datastore').DataStoreUnavailable
+import { DataStoreUnavailable } from "./datastore"
+import Robot from "./robot"
 
-class User {
+export default class User {
+  private _getRobot: (() => Robot) | (() => void)
+  private name: string
+  private id: string
+
   // Represents a participating user in the chat.
   //
   // id      - A unique ID for the user.
   // options - An optional Hash of key, value pairs for this user.
-  constructor (id, options) {
+  constructor (id: string, options: {robot?: Robot, [key: string]: any}) {
     this.id = id
 
     if (options == null) {
@@ -26,40 +31,33 @@ class User {
     }
 
     Object.keys(options).forEach((key) => {
-      this[key] = options[key]
+      (<Record<string, any>>this)[key] = options[key]
     })
 
+    //@ts-ignore
     if (!this.name) {
       this.name = this.id.toString()
     }
   }
 
-  set (key, value) {
-    this._checkDatastoreAvailable()
+  public set (key: string, value: unknown) {
     return this._getDatastore()._set(this._constructKey(key), value, 'users')
   }
 
-  get (key) {
-    this._checkDatastoreAvailable()
+  public get (key: string) {
     return this._getDatastore()._get(this._constructKey(key), 'users')
   }
 
-  _constructKey (key) {
+  private _constructKey (key: string) {
     return `${this.id}+${key}`
   }
 
-  _checkDatastoreAvailable () {
-    if (!this._getDatastore()) {
-      throw new DataStoreUnavailable('datastore is not initialized')
-    }
-  }
-
-  _getDatastore () {
+  private _getDatastore () {
     const robot = this._getRobot()
-    if (robot) {
+    if (robot && robot.datastore) {
       return robot.datastore
     }
+
+    throw new DataStoreUnavailable('datastore is not initialized')
   }
 }
-
-module.exports = User

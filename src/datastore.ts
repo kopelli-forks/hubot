@@ -56,11 +56,10 @@ export default abstract class DataStore {
   // Public: Digs inside the object at `key` for a key named
   // `objectKey`. If `key` isn't already present, or if it doesn't
   // contain an `objectKey`, returns `undefined`.
-  public getObject (key: string, objectKey: string) {
-    return this.get(key).then((obj) => {
-      const target = (obj || {}) as Record<string, any>
-      return target[objectKey]
-    })
+  public async getObject (key: string, objectKey: string) {
+    const obj = await this.get(key)
+    const target = (obj || {}) as Record<string, any>
+    return target[objectKey]
   }
 
   // Private: Implements the underlying `set` logic for the datastore.
@@ -71,7 +70,7 @@ export default abstract class DataStore {
   //
   // This returns a resolved promise when the `set` operation is
   // successful, and a rejected promise if the operation fails.
-  protected abstract _set (key: unknown, value: unknown, table: unknown): Promise<void>
+  abstract _set (key: unknown, value: unknown, table: unknown): Promise<void>
 
   // Private: Implements the underlying `get` logic for the datastore.
   // This will be called by the public methods. This is one of two
@@ -81,7 +80,7 @@ export default abstract class DataStore {
   //
   // This returns a resolved promise containing the fetched value on
   // success, and a rejected promise if the operation fails.
-  protected abstract _get (key: unknown, table: unknown): Promise<unknown>
+  abstract _get (key: unknown, table: unknown): Promise<unknown>
 }
 
 export class DataStoreUnavailable extends Error {}
