@@ -13,3 +13,4 @@ index.js
 src/user.js
 src/message.js
 src/*-message.js
+src/adapter.js

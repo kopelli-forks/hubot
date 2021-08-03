@@ -20,7 +20,7 @@ describe('Adapter', function () {
 
   describe('Public API', function () {
     beforeEach(function () {
-      this.adapter = new Adapter(this.robot)
+      this.adapter = new Adapter.Adapter(this.robot)
     })
 
     it('assigns robot', function () {
@@ -106,7 +106,7 @@ describe('Adapter', function () {
 
   it('dispatches received messages to the robot', function () {
     this.robot.receive = sinon.spy()
-    this.adapter = new Adapter(this.robot)
+    this.adapter = new Adapter.Adapter(this.robot)
     this.message = sinon.spy()
 
     this.adapter.receive(this.message)

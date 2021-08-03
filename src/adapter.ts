@@ -1,15 +1,15 @@
 'use strict'
 
+import Robot from "./robot"
+import { TextMessage } from "./text-message"
+
 const EventEmitter = require('events').EventEmitter
 
-class Adapter extends EventEmitter {
+export class Adapter extends EventEmitter {
   // An adapter is a specific interface to a chat source for robots.
   //
   // robot - A Robot instance.
-  /**
-   * @param {any} robot
-   */
-  constructor (robot) {
+  constructor (robot: Robot) {
     super()
     this.robot = robot
   }
@@ -20,10 +20,7 @@ class Adapter extends EventEmitter {
   // strings  - One or more Strings for each message to send.
   //
   // Returns nothing.
-  /**
-   * @param {any} envelope
-   */
-  send (envelope/* , ...strings */) {}
+  send (envelope: any/* , ...strings */) {}
 
   // Public: Raw method for sending emote data back to the chat source.
   // Defaults as an alias for send
@@ -32,10 +29,7 @@ class Adapter extends EventEmitter {
   // strings  - One or more Strings for each message to send.
   //
   // Returns nothing.
-  /**
-   * @param {any} envelope
-   */
-  emote (envelope/* , ...strings */) {
+  emote (envelope: any/* , ...strings */) {
     /**
      * @type {ConcatArray<any>}
      */
@@ -51,10 +45,7 @@ class Adapter extends EventEmitter {
   // strings  - One or more Strings for each reply to send.
   //
   // Returns nothing.
-  /**
-   * @param {any} envelope
-   */
-  reply (envelope/* , ...strings */) {}
+  reply (envelope: any/* , ...strings */) {}
 
   // Public: Raw method for setting a topic on the chat source. Extend this.
   //
@@ -62,10 +53,7 @@ class Adapter extends EventEmitter {
   // strings  - One more more Strings to set as the topic.
   //
   // Returns nothing.
-  /**
-   * @param {any} envelope
-   */
-  topic (envelope/* , ...strings */) {}
+  topic (envelope: any/* , ...strings */) {}
 
   // Public: Raw method for playing a sound in the chat source. Extend this.
   //
@@ -73,10 +61,7 @@ class Adapter extends EventEmitter {
   // strings  - One or more strings for each play message to send.
   //
   // Returns nothing
-  /**
-   * @param {any} envelope
-   */
-  play (envelope/* , ...strings */) {}
+  play (envelope: any/* , ...strings */) {}
 
   // Public: Raw method for invoking the bot to run. Extend this.
   //
@@ -91,12 +76,7 @@ class Adapter extends EventEmitter {
   // Public: Dispatch a received message to the robot.
   //
   // Returns nothing.
-  /**
-   * @param {import("./message").TextMessage} message
-   */
-  receive (message) {
+  receive (message: TextMessage) {
     this.robot.receive(message)
   }
 }
-
-module.exports = Adapter
