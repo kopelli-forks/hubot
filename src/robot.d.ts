@@ -3,7 +3,7 @@ import DataStore from "./datastore"
 
 export default class Robot {
     /**
-     * 
+     *
      * @param adapter the adapter name
      * @param httpd whether to enable the HTTP daemon
      * @param name the name of the robot; defaults to 'Hubot'
@@ -24,4 +24,6 @@ export default class Robot {
     shutdown(): void
 
     datastore?: DataStore
+
+    emit(eventName: string, ...args: any[])
 }
