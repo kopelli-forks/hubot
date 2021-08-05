@@ -12,9 +12,10 @@ const expect = chai.expect
 
 // Hubot classes
 const Robot = require('../src/robot')
-const TextMessage = require('../src/message').TextMessage
+const TextMessage = require('../src/text-message').TextMessage
 const Response = require('../src/response')
 const Middleware = require('../src/middleware')
+const User = require('../src/user').User
 
 // mock `hubot-mock-adapter` module from fixture
 const mockery = require('mockery')
@@ -352,21 +353,25 @@ describe('Middleware', function () {
       })
       mockery.registerMock('hubot-mock-adapter', require('./fixtures/mock-adapter'))
       this.robot = new Robot('mock-adapter', true, 'TestHubot')
-      this.robot.run
+      this.robot.run()
+      expect(this.robot).to.not.equal(undefined)
 
       // Re-throw AssertionErrors for clearer test failures
       this.robot.on('error', function (name, err, response) {
+        console.log('...guard err...')
         if (__guard__(err != null ? err.constructor : undefined, x => x.name) === 'AssertionError') {
           process.nextTick(function () {
             throw err
           })
         }
       })
-
-      this.user = this.robot.brain.userForId('1', {
-        name: 'hubottester',
-        room: '#mocha'
+      this.robot.brain.mergeData({
+        users: {
+          1: new User(1, { robot: this.robot })
+        }
       })
+
+      this.user = this.robot.brain.userForId('1')
 
       // Dummy middleware
       this.middleware = sinon.spy((context, next, done) => next(done))

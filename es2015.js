@@ -9,21 +9,25 @@ const Listener = require('./src/listener')
 const Message = require('./src/message')
 const DataStore = require('./src/datastore')
 const TextMessage = require('./src/text-message')
+const CatchAllMessage = require('./src/catch-all-message')
+const TopicMessage = require('./src/topic-message')
+const LeaveMessage = require('./src/leave-message')
+const EnterMessage = require('./src/enter-message')
 
 module.exports = {
-  User,
+  User: User.User,
   Brain,
-  Robot,
-  Adapter: Adapter,
+  Robot: Robot,
+  Adapter: Adapter.Adapter,
   Response,
   Listener: Listener.Listener,
   TextListener: Listener.TextListener,
   Message: Message.Message,
   TextMessage: TextMessage.TextMessage,
-  EnterMessage: Message.EnterMessage,
-  LeaveMessage: Message.LeaveMessage,
-  TopicMessage: Message.TopicMessage,
-  CatchAllMessage: Message.CatchAllMessage,
+  EnterMessage: EnterMessage.EnterMessage,
+  LeaveMessage: LeaveMessage.LeaveMessage,
+  TopicMessage: TopicMessage.TopicMessage,
+  CatchAllMessage: CatchAllMessage.CatchAllMessage,
   DataStore: DataStore.DataStore,
   DataStoreUnavailable: DataStore.DataStoreUnavailable,
 

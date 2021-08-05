@@ -1,7 +1,7 @@
 import { EventEmitter } from "stream"
 import DataStore from "./datastore"
 
-export default class Robot {
+class Robot {
     /**
      *
      * @param adapter the adapter name
@@ -27,3 +27,4 @@ export default class Robot {
 
     emit(eventName: string, ...args: any[])
 }
+export = Robot

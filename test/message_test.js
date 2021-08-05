@@ -10,9 +10,9 @@ chai.use(require('sinon-chai'))
 const expect = chai.expect
 
 // Hubot classes
-const User = require('../src/user')
+const User = require('../src/user').User
 const Message = require('../src/message').Message
-const TextMessage = require('../src/message').TextMessage
+const TextMessage = require('../src/text-message').TextMessage
 
 describe('Message', function () {
   beforeEach(function () {

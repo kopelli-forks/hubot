@@ -1,6 +1,6 @@
 'use strict'
 
-/* global describe, it */
+/* global describe, it, beforeEach, afterEach */
 /* eslint-disable no-unused-expressions */
 
 // Assertions and Stubbing
@@ -29,13 +29,30 @@ const CatchAllMessage = Hubot.CatchAllMessage
 const loadBot = Hubot.loadBot
 
 describe('hubot/es2015', function () {
+  beforeEach(function () {
+    this.clock = sinon.useFakeTimers()
+  })
+
+  afterEach(function () {
+    this.clock.restore()
+  })
+
   it('exports User class', function () {
+    const backingDatastore = new Map()
+    this.mockRobot = {
+      emit () {},
+      on () {},
+      datastore: {
+        _get: function (key) { return backingDatastore.get(key) },
+        _set: function (key, value) { backingDatastore.set(key, value) }
+      }
+    }
     class MyUser extends User {}
-    const user = new MyUser('id123', { foo: 'bar' })
+    const user = new MyUser('id123', { foo: 'bar', robot: this.mockRobot })
 
     expect(user).to.be.an.instanceof(User)
     expect(user.id).to.equal('id123')
-    expect(user.foo).to.equal('bar')
+    expect(user.get('foo')).to.equal('bar')
   })
 
   it('exports Brain class', function () {

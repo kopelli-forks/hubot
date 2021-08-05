@@ -2,7 +2,7 @@
 
 const inspect = require('util').inspect
 
-const TextMessage = require('./message').TextMessage
+const TextMessage = require('./text-message').TextMessage
 const Middleware = require('./middleware')
 
 class Listener {

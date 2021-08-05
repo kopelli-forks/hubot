@@ -5,8 +5,7 @@ import Robot from "./robot"
 
 export class User implements Record<string, any> {
   private _getRobot: (() => Robot) | (() => void)
-  name: string
-  private id: string
+  private _name?: string = undefined
   room?: string
 
   // Represents a participating user in the chat.
@@ -14,8 +13,6 @@ export class User implements Record<string, any> {
   // id      - A unique ID for the user.
   // options - An optional Hash of key, value pairs for this user.
   constructor (id: string, options?: {robot?: Robot, [key: string]: any}) {
-    this.id = id
-
     let capturedOptions: Record<string, any>
     if (options == null || options == undefined) {
       capturedOptions = {}
@@ -34,14 +31,21 @@ export class User implements Record<string, any> {
       this._getRobot = function () { }
     }
 
+    this.id = id
     Object.keys(capturedOptions).forEach((key) => {
       this.set(key, capturedOptions[key])
     })
+  }
 
-    //@ts-ignore
-    if (!this.name) {
-      this.name = this.id.toString()
+  public id: string
+
+  public get name(): string {
+    if (this._name === undefined) {
+      const name = this.get('name')
+      this._name = name || this.id.toString()
     }
+
+    return this._name!
   }
 
   public set (key: string, value: unknown) {

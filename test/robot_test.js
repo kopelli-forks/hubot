@@ -13,11 +13,12 @@ const expect = chai.expect
 
 // Hubot classes
 const Robot = require('../src/robot')
-const CatchAllMessage = require('../src/message').CatchAllMessage
-const EnterMessage = require('../src/message').EnterMessage
-const LeaveMessage = require('../src/message').LeaveMessage
-const TextMessage = require('../src/message').TextMessage
-const TopicMessage = require('../src/message').TopicMessage
+const CatchAllMessage = require('../src/catch-all-message').CatchAllMessage
+const EnterMessage = require('../src/enter-message').EnterMessage
+const LeaveMessage = require('../src/leave-message').LeaveMessage
+const TextMessage = require('../src/text-message').TextMessage
+const TopicMessage = require('../src/topic-message').TopicMessage
+const User = require('../src/user').User
 
 // mock `hubot-mock-adapter` module from fixture
 const mockery = require('mockery')
@@ -30,8 +31,16 @@ describe('Robot', function () {
     })
     mockery.registerMock('hubot-mock-adapter', require('./fixtures/mock-adapter'))
     this.robot = new Robot('mock-adapter', true, 'TestHubot')
+    /*
+    const backingDatastore = new Map()
+    this.robot.datastore = {
+      _set: function (key, value, _) { backingDatastore.set(key, value) },
+      _get: function (key, value, _) { return backingDatastore.get(key) }
+    } */
+
     this.robot.alias = 'Hubot'
     this.robot.run()
+    expect(this.robot).to.not.equal(undefined)
 
     // Re-throw AssertionErrors for clearer test failures
     this.robot.on('error', function (name, err, response) {
@@ -42,14 +51,18 @@ describe('Robot', function () {
       }
     })
 
-    this.user = this.robot.brain.userForId('1', {
-      name: 'hubottester',
-      room: '#mocha'
+    this.robot.brain.mergeData({
+      users: {
+        1: new User(1, { robot: this.robot })
+      }
     })
+
+    this.user = this.robot.brain.userForId('1')
   })
 
   afterEach(function () {
     mockery.disable()
+    expect(this.robot).to.not.equal(undefined)
     this.robot.shutdown()
   })
 

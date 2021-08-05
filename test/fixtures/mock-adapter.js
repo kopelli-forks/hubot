@@ -1,6 +1,6 @@
 'use strict'
 
-const Adapter = require('../..').Adapter
+const Adapter = require('../../src/adapter').Adapter
 
 class MockAdapter extends Adapter {
   send (envelope/* , ...strings */) {

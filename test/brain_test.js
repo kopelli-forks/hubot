@@ -14,14 +14,19 @@ const isCircular = require('is-circular')
 
 // Hubot classes
 const Brain = require('../src/brain')
-const User = require('../src/user')
+const User = require('../src/user').User
 
 describe('Brain', function () {
   beforeEach(function () {
     this.clock = sinon.useFakeTimers()
+    const backingDatastore = new Map()
     this.mockRobot = {
       emit () {},
-      on () {}
+      on () {},
+      datastore: {
+        _get: function (key) { return backingDatastore.get(key) },
+        _set: function (key, value) { backingDatastore.set(key, value) }
+      }
     }
 
     // This *should* be callsArgAsync to match the 'on' API, but that makes
@@ -29,10 +34,16 @@ describe('Brain', function () {
     sinon.stub(this.mockRobot, 'on').withArgs('running').callsArg(1)
 
     this.brain = new Brain(this.mockRobot)
-
-    this.user1 = this.brain.userForId('1', { name: 'Guy One' })
-    this.user2 = this.brain.userForId('2', { name: 'Guy One Two' })
-    this.user3 = this.brain.userForId('3', { name: 'Girl Three' })
+    this.brain.mergeData({
+      users: {
+        1: new User(1, { name: 'Guy One', robot: this.mockRobot }),
+        2: new User(2, { name: 'Guy One Two', robot: this.mockRobot }),
+        3: new User(3, { name: 'Girl Three', robot: this.mockRobot })
+      }
+    })
+    this.user1 = this.brain.userForId('1')
+    this.user2 = this.brain.userForId('2')
+    this.user3 = this.brain.userForId('3')
   })
 
   afterEach(function () {
@@ -214,8 +225,8 @@ describe('Brain', function () {
 
         it('passes the provided options to the new User', function () {
           const newUser = this.brain.userForId('all-new-user', { name: 'All New User', prop: 'mine' })
-          expect(newUser.name).to.equal('All New User')
-          expect(newUser.prop).to.equal('mine')
+          expect(newUser.get('name')).to.equal('All New User')
+          expect(newUser.get('prop')).to.equal('mine')
         })
       })
     })

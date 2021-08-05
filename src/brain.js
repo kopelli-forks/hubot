@@ -2,7 +2,7 @@
 
 const EventEmitter = require('events').EventEmitter
 
-const User = require('./user')
+const User = require('./user').User
 
 // If necessary, reconstructs a User object. Returns either:
 //

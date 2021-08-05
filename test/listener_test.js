@@ -11,12 +11,12 @@ chai.use(require('sinon-chai'))
 const expect = chai.expect
 
 // Hubot classes
-const EnterMessage = require('../src/message').EnterMessage
-const TextMessage = require('../src/message').TextMessage
+const EnterMessage = require('../src/enter-message').EnterMessage
+const TextMessage = require('../src/text-message').TextMessage
 const Listener = require('../src/listener').Listener
 const TextListener = require('../src/listener').TextListener
 const Response = require('../src/response')
-const User = require('../src/user')
+const User = require('../src/user').User
 
 describe('Listener', function () {
   beforeEach(function () {

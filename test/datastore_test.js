@@ -9,7 +9,7 @@ chai.use(require('sinon-chai'))
 const expect = chai.expect
 
 const Brain = require('../src/brain')
-const InMemoryDataStore = require('../src/datastores/memory')
+const InMemoryDataStore = require('../src/datastores/memory').default
 
 describe('Datastore', function () {
   beforeEach(function () {

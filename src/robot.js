@@ -11,7 +11,10 @@ const HttpClient = require('scoped-http-client')
 const Brain = require('./brain')
 const Response = require('./response')
 const Listener = require('./listener')
-const Message = require('./message')
+const EnterMessage = require('./enter-message').EnterMessage
+const LeaveMessage = require('./leave-message').LeaveMessage
+const CatchAllMessage = require('./catch-all-message').CatchAllMessage
+const TopicMessage = require('./topic-message').TopicMessage
 const Middleware = require('./middleware')
 
 const HUBOT_DEFAULT_ADAPTERS = ['shell']
@@ -163,7 +166,7 @@ class Robot {
   //
   // Returns nothing.
   enter (options, callback) {
-    this.listen(msg => msg instanceof Message.EnterMessage, options, callback)
+    this.listen(msg => msg instanceof EnterMessage, options, callback)
   }
 
   // Public: Adds a Listener that triggers when anyone leaves the room.
@@ -174,7 +177,7 @@ class Robot {
   //
   // Returns nothing.
   leave (options, callback) {
-    this.listen(msg => msg instanceof Message.LeaveMessage, options, callback)
+    this.listen(msg => msg instanceof LeaveMessage, options, callback)
   }
 
   // Public: Adds a Listener that triggers when anyone changes the topic.
@@ -185,7 +188,7 @@ class Robot {
   //
   // Returns nothing.
   topic (options, callback) {
-    this.listen(msg => msg instanceof Message.TopicMessage, options, callback)
+    this.listen(msg => msg instanceof TopicMessage, options, callback)
   }
 
   // Public: Adds an error handler when an uncaught exception or user emitted
@@ -334,9 +337,9 @@ class Robot {
     _ => {
       // If no registered Listener matched the message
 
-      if (!(context.response.message instanceof Message.CatchAllMessage) && !anyListenersExecuted) {
+      if (!(context.response.message instanceof CatchAllMessage) && !anyListenersExecuted) {
         this.logger.debug('No listeners executed; falling back to catch-all')
-        this.receive(new Message.CatchAllMessage(context.response.message), done)
+        this.receive(new CatchAllMessage(context.response.message), done)
       } else {
         if (done != null) {
           process.nextTick(done)
@@ -718,7 +721,7 @@ class Robot {
 module.exports = Robot
 
 function isCatchAllMessage (message) {
-  return message instanceof Message.CatchAllMessage
+  return message instanceof CatchAllMessage
 }
 
 function toHeaderCommentBlock (block, currentLine) {
