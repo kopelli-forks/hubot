@@ -15,3 +15,4 @@ src/message.js
 src/*-message.js
 src/adapter.js
 src/adapters/shell.js
+test/fixtures/mock-adapter.js
