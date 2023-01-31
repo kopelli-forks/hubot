@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/.hubot_history": true,
+        "**/.node-version": true,
+        "**/.nyc_output/": true,
+        "**/npm-debug.log": true,
+        "**/coverage/": true,
+        "**/*.map": true,
+        "bin/hubot.js": true,
+        "src/datastore.js": true,
+        "src/datastores/memory.js": true,
+        "**/index.js": true,
+        "src/user.js": true,
+        "src/message.js": true,
+        "src/*-message.js": true,
+        "src/adapter.js": true,
+        "src/adapters/shell.js": true,
+        "test/fixtures/mock-adapter.js": true
+    }
+}

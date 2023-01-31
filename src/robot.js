@@ -69,7 +69,6 @@ class Robot {
 
     this.loadAdapter(adapter)
 
-    this.adapterName = adapter
     this.errorHandlers = []
 
     this.on('error', (err, res) => {
@@ -234,6 +233,8 @@ class Robot {
       callback = options
       options = {}
     }
+
+    const isCatchAllMessage = (message) => message instanceof CatchAllMessage
 
     this.listen(isCatchAllMessage, options, function listenCallback (msg) {
       msg.message = msg.message.message
@@ -712,7 +713,7 @@ class Robot {
   //
   // Returns a ScopedClient instance.
   http (url, options) {
-    const httpOptions = extend({}, this.globalHttpOptions, options)
+    const httpOptions = Object.assign({}, this.globalHttpOptions, options)
 
     return HttpClient.create(url, httpOptions).header('User-Agent', `Hubot/${this.version}`)
   }
@@ -720,14 +721,13 @@ class Robot {
 
 module.exports = Robot
 
-function isCatchAllMessage (message) {
-  return message instanceof CatchAllMessage
-}
-
 function toHeaderCommentBlock (block, currentLine) {
   if (!block.isHeader) {
     return block
   }
+
+  const isCommentLine = (line) => /^(#|\/\/)/.test(line)
+  const removeCommentPrefix = (line) => line.replace(/^[#/]+\s*/, '')
 
   if (isCommentLine(currentLine)) {
     block.lines.push(removeCommentPrefix(currentLine))
@@ -736,28 +736,4 @@ function toHeaderCommentBlock (block, currentLine) {
   }
 
   return block
-}
-
-function isCommentLine (line) {
-  return /^(#|\/\/)/.test(line)
-}
-
-function removeCommentPrefix (line) {
-  return line.replace(/^[#/]+\s*/, '')
-}
-
-function extend (obj/* , ...sources */) {
-  const sources = [].slice.call(arguments, 1)
-
-  sources.forEach((source) => {
-    if (typeof source !== 'object') {
-      return
-    }
-
-    Object.keys(source).forEach((key) => {
-      obj[key] = source[key]
-    })
-  })
-
-  return obj
 }
